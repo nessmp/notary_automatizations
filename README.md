@@ -1,0 +1,1 @@
+# generals_file_automatization
