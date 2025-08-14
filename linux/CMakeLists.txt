@@ -1,6 +1,9 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.13)
 project(runner LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(NATIVE_DIR "${CMAKE_SOURCE_DIR}/../native")
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
@@ -126,3 +129,13 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
     COMPONENT Runtime)
 endif()
+
+
+add_library(read_csf_wrapper SHARED ${NATIVE_DIR}/src/read_csf_wrapper.cc 
+  ${NATIVE_DIR}/src/read_csf.cc ${NATIVE_DIR}/src/read_pdf.cc)
+
+target_include_directories(read_csf_wrapper PUBLIC ${NATIVE_DIR}/include)
+
+find_library(PDFIO_LIB pdfio REQUIRED PATHS /usr/local/lib)
+target_include_directories(read_csf_wrapper PRIVATE /usr/local/include)
+target_link_libraries(read_csf_wrapper PRIVATE ${PDFIO_LIB})
