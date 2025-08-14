@@ -6,20 +6,19 @@ import 'package:window_size/window_size.dart';
 
 import 'widgets/side_menu_banner.dart';
 import 'widgets/form_viewer.dart';
+import 'widgets/constants.dart';
 
 void main() {
   setupWindow();
   runApp(const HomePage());
 }
 
-const double windowWidth = 1024;
-const double windowHeight = 800;
-
 void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     WidgetsFlutterBinding.ensureInitialized();
-    setWindowTitle('Notaria 27');
-    setWindowMinSize(const Size(windowWidth, windowHeight));
+    setWindowTitle(Constants.kWindowTitle);
+    setWindowMinSize(
+      const Size(Constants.kWindowWidth, Constants.kWindowHeight));
   }
 }
 
@@ -31,7 +30,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? csfName;
+  Map<String, String>? _csfData;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -43,19 +42,20 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: SideMenuBanner(
-                onDataUpload: (name) {
-                  setState(() => csfName = name);
+                onDataUpload: (data) {
+                  setState(() { 
+                    _csfData = data;
+                  });
                 },
               ),
             ),
           ),
           Expanded(
             flex: 8,
-            child: FormViewer(csfName: csfName ?? ''),
+            child: FormViewer(csfData: _csfData ?? {}),
           ),
         ],
       )
     )
   );
 }
-

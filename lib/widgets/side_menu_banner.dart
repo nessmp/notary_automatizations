@@ -4,7 +4,7 @@ import 'csf.dart';
 import 'upload_button.dart';
 
 class SideMenuBanner extends StatefulWidget {
-  final void Function(String) onDataUpload;
+  final void Function(Map<String, String>) onDataUpload;
   const SideMenuBanner({super.key, required this.onDataUpload});
 
   @override
@@ -22,7 +22,7 @@ class _SideMenuBanner extends State<SideMenuBanner> {
           child: UploadButton(
             onUploadComplete: (uploadedFileName){
               final csf = Csf(uploadedFileName);
-              widget.onDataUpload(csf.getName());
+              widget.onDataUpload(csf.getData());
             },
           )
         ),

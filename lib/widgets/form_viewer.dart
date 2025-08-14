@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class FormViewer extends StatefulWidget {
-  final String csfName;
+  final Map<String, String> csfData;
   const FormViewer({
     super.key, 
-    required this.csfName,
+    required this.csfData,
   });
 
   @override
@@ -13,13 +15,28 @@ class FormViewer extends StatefulWidget {
 
 class _FormViewer extends State<FormViewer> {
   final _formKey = GlobalKey<FormState>();
-  final _controller = TextEditingController();
+  final _controllers = {
+    Constants.kBirthDateLabel : TextEditingController(),
+    Constants.kCityLabel : TextEditingController(),
+    Constants.kColoniaLabel : TextEditingController(),
+    Constants.kCurpLabel : TextEditingController(),
+    Constants.kEconomicActivitiesLabel : TextEditingController(),
+    Constants.kHouseNumberLabel : TextEditingController(),
+    Constants.kNameLabel : TextEditingController(),
+    Constants.kRegimesLabel : TextEditingController(),
+    Constants.kRfcLabel : TextEditingController(),
+    Constants.kStateLabel : TextEditingController(),
+    Constants.kStreetLabel : TextEditingController(),
+    Constants.kZipCodeLabel : TextEditingController(),
+  };
 
   @override
   void didUpdateWidget(covariant FormViewer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.csfName != oldWidget.csfName) {
-      _controller.text = widget.csfName;
+    if (widget.csfData != oldWidget.csfData) {
+      for (var controller in _controllers.entries) {
+        controller.value.text = widget.csfData[controller.key] ?? '';
+      }
     }
   }
 
@@ -33,25 +50,20 @@ class _FormViewer extends State<FormViewer> {
             child: Form(
               key: _formKey,
               child: Column(
-                children: [
-                  TextFormField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      labelText: 'Nombre',
-                      border: const OutlineInputBorder(),
-                    ),
-                    readOnly: false,
-                  ),
-                  SizedBox(height: 8), 
-                  TextFormField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      labelText: 'Nombre',
-                      border: const OutlineInputBorder(),
-                    ),
-                    readOnly: false,
-                  ),
-                ],
+                children:
+                  _controllers.entries.map((entry) => 
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: TextFormField(
+                        controller: entry.value,
+                        decoration: InputDecoration(
+                          labelText: entry.key,
+                          border: const OutlineInputBorder(),
+                        ),
+                        readOnly: false,
+                      )
+                    )
+                  ).toList(),
               ),
             ),
           ),
