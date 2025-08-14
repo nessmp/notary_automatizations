@@ -4,6 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 
+import 'widgets/side_menu_banner.dart';
+import 'widgets/form_viewer.dart';
+
 void main() {
   setupWindow();
   runApp(const HomePage());
@@ -11,10 +14,11 @@ void main() {
 
 const double windowWidth = 1024;
 const double windowHeight = 800;
+
 void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     WidgetsFlutterBinding.ensureInitialized();
-    setWindowTitle('Crear Generales');
+    setWindowTitle('Notaria 27');
     setWindowMinSize(const Size(windowWidth, windowHeight));
   }
 }
@@ -27,36 +31,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<void> computeFuture = Future.value();
+  String? csfName;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: FutureBuilder(
-            future: computeFuture,
-            builder: (context, snapshot) {
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(elevation: 8.0),
-                onPressed: switch (snapshot.connectionState) {
-                  ConnectionState.done =>
-                    () => handleClick(context),
-                  _ => null,
+  Widget build(BuildContext context) => MaterialApp(
+    home: Scaffold( 
+      body: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SideMenuBanner(
+                onDataUpload: (name) {
+                  setState(() => csfName = name);
                 },
-                child: Text('Button test'),
-                );
-            },
+              ),
+            ),
           ),
-        ),
-      ),
-    );
-  }
+          Expanded(
+            flex: 8,
+            child: FormViewer(csfName: csfName ?? ''),
+          ),
+        ],
+      )
+    )
+  );
 }
 
-void handleClick(BuildContext context) {
-  // TODO(nessmp):
-  //    * test code to do character recognition on the INE pic.
-  //    * test code to read PDF files (make sure it read both files!)
-  print('Button Pressed!');
-}
