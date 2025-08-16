@@ -1,6 +1,10 @@
 class Constants {
-  static const double kWindowWidth = 1024;
-  static const double kWindowHeight = 800;
+  static const double kWindowWidth = 768;
+  static const double kWindowHeight = 1024;
+  static const double ktightSpacing = 4;
+  static const double kFieldsSpacing = 8;
+  static const double kSectionsSpacing = 32;
+
   static const String kWindowTitle = 'Notaria 27'; 
 
   static const String kBirthDateLabel = 'Fecha de Nacimiento';
@@ -28,4 +32,10 @@ class Constants {
   static const String kCsfState = 'get_state';
   static const String kCsfStreet = 'get_street';
   static const String kCsfZipCode = 'get_zip_code';
+}
+
+enum FileTypes {
+  csf,
+  ine,
+  validity,
 }
