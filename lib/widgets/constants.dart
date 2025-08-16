@@ -8,6 +8,8 @@ class Constants {
   static const String kWindowTitle = 'Notaria 27'; 
   static const String kPersonalData = 'Datos Personales';
   static const String kFiscalData = 'Datos Fiscales';
+  static const String keconomicActivities = 'Actividades Económicas';
+  static const String kRegimes = 'Regímenes';
 
   static const String kBirthDateLabel = 'Fecha de Nacimiento';
   static const String kCityLabel = 'Ciudad';
