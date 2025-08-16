@@ -21,10 +21,8 @@ class _FormViewer extends State<FormViewer> {
     Constants.kCityLabel : TextEditingController(),
     Constants.kColoniaLabel : TextEditingController(),
     Constants.kCurpLabel : TextEditingController(),
-    Constants.kEconomicActivitiesLabel : TextEditingController(),
     Constants.kHouseNumberLabel : TextEditingController(),
     Constants.kNameLabel : TextEditingController(),
-    Constants.kRegimesLabel : TextEditingController(),
     Constants.kRfcLabel : TextEditingController(),
     Constants.kStateLabel : TextEditingController(),
     Constants.kStreetLabel : TextEditingController(),
@@ -43,6 +41,14 @@ final _fiscalDataControllers = {
     Constants.kStateLabel : TextEditingController(),
     Constants.kStreetLabel : TextEditingController(),
     Constants.kZipCodeLabel : TextEditingController(),
+  };
+
+  final _activitiesControllers = {
+    Constants.kEconomicActivitiesLabel : TextEditingController(),
+  };
+
+  final _regimesControllers = {
+    Constants.kRegimesLabel : TextEditingController(),
   };
 
   @override
@@ -68,8 +74,11 @@ final _fiscalDataControllers = {
             title: Constants.kFiscalData,
             controllers: _fiscalDataControllers),
           DataViewer(
-            title: Constants.kFiscalData,
-            controllers: _fiscalDataControllers),
+            title: Constants.kEconomicActivities,
+            controllers: _activitiesControllers),
+          DataViewer(
+            title: Constants.kRegimes,
+            controllers: _regimesControllers),
         ],
       ),
     ),

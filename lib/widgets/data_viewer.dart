@@ -23,27 +23,28 @@ class _DataViewerState extends State<DataViewer> {
         _nameWidget,
         _birthDateWidget,
         _columnsWidget,
+        _activitiesWidget,
+        _regimesWidget,
     ],
   );
 
-  Widget get _titleWidget =>
-    widget.title.isEmpty ? 
-      const SizedBox.shrink() : 
-      Text(
-        widget.title,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        )
-      );
+  Widget get _titleWidget => widget.title.isEmpty ? 
+    const SizedBox.shrink() : 
+    Text(
+      widget.title,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      )
+    );
 
   Widget get _nameWidget => 
     widget.controllers.containsKey(Constants.kNameLabel) ? 
-    _createTextFormField(
-      Constants.kNameLabel, 
-      widget.controllers[Constants.kNameLabel]!, 
-      Constants.kFieldsSpacing) : 
-    const SizedBox.shrink();
+      _createTextFormField(
+        Constants.kNameLabel, 
+        widget.controllers[Constants.kNameLabel]!, 
+        Constants.kFieldsSpacing) : 
+      const SizedBox.shrink();
 
   Widget get _birthDateWidget => 
     widget.controllers.containsKey(Constants.kBirthDateLabel) ? 
@@ -102,6 +103,23 @@ class _DataViewerState extends State<DataViewer> {
       ],
     );
   }
+
+  Widget get _activitiesWidget => 
+    widget.controllers.containsKey(Constants.kEconomicActivitiesLabel) ? 
+      _createTextFormField(
+        Constants.kEconomicActivitiesLabel, 
+        widget.controllers[Constants.kEconomicActivitiesLabel]!, 
+        Constants.kFieldsSpacing) : 
+      const SizedBox.shrink();
+
+  Widget get _regimesWidget => 
+    widget.controllers.containsKey(Constants.kRegimesLabel) ? 
+      _createTextFormField(
+        Constants.kRegimesLabel, 
+        widget.controllers[Constants.kRegimesLabel]!, 
+        Constants.kFieldsSpacing) : 
+      const SizedBox.shrink();
+
 
   Widget _createTextFormField(
    String label, 
