@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
-import 'form_non_list_data.dart';
+import 'data_viewer.dart';
 
 class FormViewer extends StatefulWidget {
   final Map<String, String> data;
@@ -61,12 +61,15 @@ final _fiscalDataControllers = {
       key: _formKey,
       child: Column(
         children: [
-          FormNonListData(
+          DataViewer(
             title: Constants.kPersonalData, 
             controllers: _personalDataControllers),
-          FormNonListData(
+          DataViewer(
             title: Constants.kFiscalData,
-          controllers: _fiscalDataControllers),
+            controllers: _fiscalDataControllers),
+          DataViewer(
+            title: Constants.kFiscalData,
+            controllers: _fiscalDataControllers),
         ],
       ),
     ),

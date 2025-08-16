@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
-class FormNonListData extends StatefulWidget {
+class DataViewer extends StatefulWidget {
   final Map<String, TextEditingController> controllers;
   final String title;
 
-  const FormNonListData({
+  const DataViewer({
     super.key, 
     required this.controllers, 
     this.title = ''});
 
   @override
-  State<FormNonListData> createState() => _FormNonListDataState();
+  State<DataViewer> createState() => _DataViewerState();
 }
 
-class _FormNonListDataState extends State<FormNonListData> {
+class _DataViewerState extends State<DataViewer> {
   @override
   Widget build(BuildContext context) {
     final title = widget.title.isEmpty ? 
