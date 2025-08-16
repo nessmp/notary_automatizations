@@ -1,11 +1,11 @@
-import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
+import 'constants.dart';
+
 class UploadButton extends StatefulWidget {
-  final void Function(String) onUploadComplete;
+  final void Function(Map<Enum, String>) onUploadComplete;
   const UploadButton({super.key, required this.onUploadComplete});
 
 
@@ -19,21 +19,34 @@ class _UploadButtonState extends State<UploadButton> {
   Future<void> _pickAndUpload() async {
     try {
       final result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.any,
-        withData: true, // gets bytes on all platforms (avoid for huge files)
-      );
-
+        allowMultiple: true,
+        type: FileType.any);
       if (result == null || result.files.isEmpty) {
         return;
       }
 
-      final file = result.files.single;
-      final Uint8List? fileBytes = file.bytes; // populated because withData: true
-      if (fileBytes == null) {
-        return;
+      final Map<Enum, String> filesPaths = {};
+
+      // TODO(ness): Change this to a more robust file detection.
+      final csfFile = result.files.where((file) => 
+        file.name.endsWith('csf.pdf')).firstOrNull;
+      if (csfFile != null) {
+        filesPaths[FileTypes.csf] = csfFile.path!;
       }
-      widget.onUploadComplete(file.path!);
+
+      final ineFile = result.files.where((file) => 
+        file.name.endsWith('ine.pdf')).firstOrNull;
+      if (ineFile != null) {
+        filesPaths[FileTypes.ine] = ineFile.path!;
+      }
+
+      final validityFile = result.files.where((file) => 
+        file.name.endsWith('vigencia.pdf')).firstOrNull;
+      if (validityFile != null) {
+        filesPaths[FileTypes.validity] = validityFile.path!;
+      }
+
+      widget.onUploadComplete(filesPaths);
     } catch (e, stackTrace) {
       _logger.severe('Something went wrong', e, stackTrace);
     }
