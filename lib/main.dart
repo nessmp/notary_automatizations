@@ -1,25 +1,29 @@
-import 'dart:io' show Platform;
+import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 
-import 'widgets/side_menu_banner.dart';
+import 'widgets/top_banner.dart';
 import 'widgets/form_viewer.dart';
 import 'widgets/constants.dart';
 
 void main() {
-  setupWindow();
-  runApp(const HomePage());
-}
-
-void setupWindow() {
-  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+  runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
     setWindowTitle(Constants.kWindowTitle);
-    setWindowMinSize(
-      const Size(Constants.kWindowWidth, Constants.kWindowHeight));
-  }
+    setWindowMinSize(const Size(
+      Constants.kWindowWidth, Constants.kWindowHeight));
+
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.dumpErrorToConsole(details);
+    };
+
+    runApp(const HomePage());
+  }, (error, stackTrace) {
+    debugPrint('Caught error in zone: $error');
+    debugPrintStack(stackTrace: stackTrace);
+  });
 }
 
 class HomePage extends StatefulWidget {
@@ -30,29 +34,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Map<String, String>? _csfData;
+  Map<FileTypes, Map<String, String>>? _csfData;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
     home: Scaffold( 
-      body: Row(
+      body: Column(
         children: [
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: SideMenuBanner(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Constants.ktightSpacing),
+              child: TopBanner(
                 onDataUpload: (data) {
-                  setState(() { 
-                    _csfData = data;
-                  });
+                  setState(() => _csfData = data);
                 },
               ),
             ),
           ),
           Expanded(
-            flex: 8,
-            child: FormViewer(csfData: _csfData ?? {}),
+            flex: 10,
+            child: Padding(
+              padding: const EdgeInsets.all(Constants.kSectionsSpacing),
+              child: FormViewer(data: _csfData?[FileTypes.csf] ?? {}),
+            ),
           ),
         ],
       )
