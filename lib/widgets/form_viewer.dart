@@ -18,11 +18,13 @@ class _FormViewer extends State<FormViewer> {
   final _formKey = GlobalKey<FormState>();
   final _personalDataControllers = {
     Constants.kBirthDateLabel : TextEditingController(),
+    Constants.kCicLabel : TextEditingController(),
     Constants.kCityLabel : TextEditingController(),
     Constants.kColoniaLabel : TextEditingController(),
     Constants.kCurpLabel : TextEditingController(),
     Constants.kHouseNumberLabel : TextEditingController(),
     Constants.kNameLabel : TextEditingController(),
+    Constants.kOcrLabel : TextEditingController(),
     Constants.kRfcLabel : TextEditingController(),
     Constants.kStateLabel : TextEditingController(),
     Constants.kStreetLabel : TextEditingController(),
@@ -33,11 +35,7 @@ class _FormViewer extends State<FormViewer> {
 final _fiscalDataControllers = {
     Constants.kCityLabel : TextEditingController(),
     Constants.kColoniaLabel : TextEditingController(),
-    Constants.kCurpLabel : TextEditingController(),
-    Constants.kEconomicActivitiesLabel : TextEditingController(),
     Constants.kHouseNumberLabel : TextEditingController(),
-    Constants.kRegimesLabel : TextEditingController(),
-    Constants.kRfcLabel : TextEditingController(),
     Constants.kStateLabel : TextEditingController(),
     Constants.kStreetLabel : TextEditingController(),
     Constants.kZipCodeLabel : TextEditingController(),
