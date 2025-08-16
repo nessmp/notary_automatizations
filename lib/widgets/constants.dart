@@ -1,23 +1,25 @@
 class Constants {
-  static const double kWindowWidth = 768;
-  static const double kWindowHeight = 1024;
-  static const double ktightSpacing = 4;
   static const double kFieldsSpacing = 8;
   static const double kSectionsSpacing = 32;
+  static const double kTightSpacing = 4;
+  static const double kWindowHeight = 1024;
+  static const double kWindowWidth = 768;
 
-  static const String kWindowTitle = 'Notaria 27'; 
-  static const String kPersonalData = 'Datos Personales';
-  static const String kFiscalData = 'Datos Fiscales';
   static const String kEconomicActivities = 'Actividades Económicas';
+  static const String kFiscalData = 'Datos Fiscales';
+  static const String kPersonalData = 'Datos Personales';
   static const String kRegimes = 'Regímenes';
+  static const String kWindowTitle = 'Notaria 27'; 
 
   static const String kBirthDateLabel = 'Fecha de Nacimiento';
+  static const String kCicLabel = 'CIC';
   static const String kCityLabel = 'Ciudad';
   static const String kColoniaLabel = 'Colonia';
   static const String kCurpLabel = 'CURP';
   static const String kEconomicActivitiesLabel = 'Actividades Económicas';
   static const String kHouseNumberLabel = 'Numero Exterior';
   static const String kNameLabel = 'Nombre';
+  static const String kOcrLabel = 'OCR';
   static const String kRegimesLabel = 'Regimenes';
   static const String kRfcLabel = 'RFC';
   static const String kStateLabel = 'Estado';
