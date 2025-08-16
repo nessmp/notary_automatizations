@@ -17,8 +17,17 @@ class DataViewer extends StatefulWidget {
 
 class _DataViewerState extends State<DataViewer> {
   @override
-  Widget build(BuildContext context) {
-    final title = widget.title.isEmpty ? 
+  Widget build(BuildContext context) => Column(
+    children: [
+        _titleWidget, 
+        _nameWidget,
+        _birthDateWidget,
+        _columnsWidget,
+    ],
+  );
+
+  Widget get _titleWidget =>
+    widget.title.isEmpty ? 
       const SizedBox.shrink() : 
       Text(
         widget.title,
@@ -28,6 +37,23 @@ class _DataViewerState extends State<DataViewer> {
         )
       );
 
+  Widget get _nameWidget => 
+    widget.controllers.containsKey(Constants.kNameLabel) ? 
+    _createTextFormField(
+      Constants.kNameLabel, 
+      widget.controllers[Constants.kNameLabel]!, 
+      Constants.kFieldsSpacing) : 
+    const SizedBox.shrink();
+
+  Widget get _birthDateWidget => 
+    widget.controllers.containsKey(Constants.kBirthDateLabel) ? 
+      _createTextFormField(
+        Constants.kBirthDateLabel, 
+        widget.controllers[Constants.kBirthDateLabel]!,
+        Constants.kFieldsSpacing) : 
+      const SizedBox.shrink();
+
+  Widget get _columnsWidget {
     const List<String> leftColumnsKeys = [
       'CIC', 
       Constants.kStateLabel,
@@ -47,7 +73,7 @@ class _DataViewerState extends State<DataViewer> {
         leftColumnsKeys.contains(entry.key)|| 
         rightColumnKeys.contains(entry.key)));
 
-    final twoColumnsData = Row(
+    return Row(
       children: [
         Expanded(
           flex: 1,
@@ -73,22 +99,6 @@ class _DataViewerState extends State<DataViewer> {
               ).toList(),
           ),
         ),
-      ],
-    );
-
-    return Column(
-      children: [
-          title, 
-          widget.controllers.containsKey(Constants.kNameLabel) ? _createTextFormField(
-            Constants.kNameLabel, 
-            widget.controllers[Constants.kNameLabel]!, 
-            Constants.kFieldsSpacing) : const SizedBox.shrink(),
-          widget.controllers.containsKey(Constants.kBirthDateLabel) ? 
-            _createTextFormField(
-              Constants.kBirthDateLabel, 
-              widget.controllers[Constants.kBirthDateLabel]!,
-              Constants.kFieldsSpacing) : const SizedBox.shrink(),
-          twoColumnsData,
       ],
     );
   }
