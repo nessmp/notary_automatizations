@@ -17,6 +17,9 @@ dependencies:
   ffi: ^2.1.0
   file_picker: ^10.3.1
   logging: ^1.2.0
+  flutter_form_builder: ^10.2.0
+  form_builder_validators: ^11.2.0
+
 
 dev_dependencies:
   flutter_test:
