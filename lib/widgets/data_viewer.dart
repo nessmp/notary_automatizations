@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'constants.dart';
 
 class DataViewer extends StatefulWidget {
-  final Map<String, TextEditingController> controllers;
+  final Map<String, List<TextEditingController>> controllers;
   final String title;
 
   const DataViewer({
@@ -42,13 +41,15 @@ class _DataViewerState extends State<DataViewer> {
 
   Widget get _nameWidget => 
     widget.controllers.containsKey(Constants.kNameLabel) ? 
-      _createFormTextField(Constants.kNameLabel, widget.controllers[Constants.kNameLabel]!) : 
+      _createFormTextField(
+        [Constants.kNameLabel], 
+        widget.controllers[Constants.kNameLabel]!) : 
       const SizedBox.shrink();
 
   Widget get _birthDateWidget => 
     widget.controllers.containsKey(Constants.kBirthDateLabel) ? 
       _createFormTextField(
-        Constants.kBirthDateLabel, 
+        [Constants.kBirthDateLabel], 
         widget.controllers[Constants.kBirthDateLabel]!) : 
       const SizedBox.shrink();
 
@@ -79,7 +80,7 @@ class _DataViewerState extends State<DataViewer> {
           child: Column(
             children: columnControllers.entries.where((entry) => 
               leftColumnsKeys.contains(entry.key)).map((entry) =>
-                _createFormTextField(entry.key, 
+                _createFormTextField([entry.key], 
                   columnControllers[entry.key]!),
               ).toList(),
           ),
@@ -91,44 +92,53 @@ class _DataViewerState extends State<DataViewer> {
             children: columnControllers.entries.where((entry) => 
               rightColumnKeys.contains(entry.key)).map((entry) =>
                 _createFormTextField(
-                  entry.key, 
+                  [entry.key], 
                   columnControllers[entry.key]!),
               ).toList(),
           ),
         ),
+        SizedBox(width: Constants.kFieldsSpacing),
       ],
     );
   }
 
-  Widget get _activitiesWidget => 
-    widget.controllers.containsKey(Constants.kEconomicActivitiesLabel) ? 
-      _createFormTextField(
-        Constants.kEconomicActivitiesLabel, 
-        widget.controllers[Constants.kEconomicActivitiesLabel]!) : 
-      const SizedBox.shrink();
+  Widget get _activitiesWidget {
+    if (widget.controllers.containsKey(Constants.kEconomicActivitiesLabel)) {
+      final labels = List.generate(
+        widget.controllers[Constants.kEconomicActivitiesLabel]!.length,
+        (index) => '${index + 1} - ${Constants.kEconomicActivity}');
+      return _createFormTextField(labels, 
+        widget.controllers[Constants.kEconomicActivitiesLabel]!);
+    }
+    return const SizedBox.shrink();
+  }
 
-  Widget get _regimesWidget => 
-    widget.controllers.containsKey(Constants.kRegimesLabel) ? 
-      _createFormTextField(
-        Constants.kRegimesLabel, 
-        widget.controllers[Constants.kRegimesLabel]!) : 
-      const SizedBox.shrink();
-
+  Widget get _regimesWidget {
+    if (widget.controllers.containsKey(Constants.kRegimesLabel)) {
+      final labels = List.generate(
+        widget.controllers[Constants.kRegimesLabel]!.length,
+        (index) => '${index + 1} - ${Constants.kRegime}');
+      return _createFormTextField(labels, 
+        widget.controllers[Constants.kRegimesLabel]!);
+    }
+    return const SizedBox.shrink();
+  }
 
   Widget _createFormTextField(
-   String label, 
-   TextEditingController controller) => Column(
-    children: [ 
-      FormBuilderTextField(
-        name: label,
-        controller: controller,
-        decoration: InputDecoration(labelText: label),
-        validator: FormBuilderValidators.compose([
-          FormBuilderValidators.required(),
-          FormBuilderValidators.email(),
-        ]),
-      ),
-      SizedBox(height: Constants.kFieldsSpacing),
-    ],
+   List<String> labels, 
+   List<TextEditingController> controllers) => Column(
+    children: List.generate(
+      labels.length, 
+      (index) => Column(
+        children: [
+          FormBuilderTextField(
+            name: labels[index],
+            controller: controllers[index],
+            decoration: InputDecoration(labelText: labels[index]),
+          ),
+          SizedBox(height: Constants.kFieldsSpacing),
+        ],
+      )
+    )
   );
 }

@@ -6,8 +6,10 @@ class Constants {
   static const double kWindowWidth = 768;
 
   static const String kEconomicActivities = 'Actividades Económicas';
+  static const String kEconomicActivity = 'Actividad Económica';
   static const String kFiscalData = 'Datos Fiscales';
   static const String kPersonalData = 'Datos Personales';
+  static const String kRegime = 'Regimen';
   static const String kRegimes = 'Regímenes';
   static const String kWindowTitle = 'Notaria 27'; 
 

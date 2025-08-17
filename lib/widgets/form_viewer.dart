@@ -15,47 +15,82 @@ class FormViewer extends StatefulWidget {
 }
 
 class _FormViewer extends State<FormViewer> {
+  late Map<String, List<TextEditingController>>  _activitiesControllers;
+  late Map<String, List<TextEditingController>>  _regimesControllers;
+
+  _FormViewer() {
+    _activitiesControllers = {
+      Constants.kEconomicActivitiesLabel: [TextEditingController()],
+    };
+    _regimesControllers = {
+      Constants.kRegimesLabel: [TextEditingController()],
+    };
+  }
+
   final _formKey = GlobalKey<FormState>();
   final _personalDataControllers = {
-    Constants.kBirthDateLabel : TextEditingController(),
-    Constants.kCicLabel : TextEditingController(),
-    Constants.kCityLabel : TextEditingController(),
-    Constants.kColoniaLabel : TextEditingController(),
-    Constants.kCurpLabel : TextEditingController(),
-    Constants.kHouseNumberLabel : TextEditingController(),
-    Constants.kNameLabel : TextEditingController(),
-    Constants.kOcrLabel : TextEditingController(),
-    Constants.kRfcLabel : TextEditingController(),
-    Constants.kStateLabel : TextEditingController(),
-    Constants.kStreetLabel : TextEditingController(),
-    Constants.kZipCodeLabel : TextEditingController(),
+    Constants.kBirthDateLabel : [TextEditingController()],
+    Constants.kCicLabel : [TextEditingController()],
+    Constants.kCityLabel : [TextEditingController()],
+    Constants.kColoniaLabel : [TextEditingController()],
+    Constants.kCurpLabel : [TextEditingController()],
+    Constants.kHouseNumberLabel : [TextEditingController()],
+    Constants.kNameLabel : [TextEditingController()],
+    Constants.kOcrLabel : [TextEditingController()],
+    Constants.kRfcLabel : [TextEditingController()],
+    Constants.kStateLabel : [TextEditingController()],
+    Constants.kStreetLabel : [TextEditingController()],
+    Constants.kZipCodeLabel : [TextEditingController()],
   };
 
 
 final _fiscalDataControllers = {
-    Constants.kCityLabel : TextEditingController(),
-    Constants.kColoniaLabel : TextEditingController(),
-    Constants.kHouseNumberLabel : TextEditingController(),
-    Constants.kStateLabel : TextEditingController(),
-    Constants.kStreetLabel : TextEditingController(),
-    Constants.kZipCodeLabel : TextEditingController(),
-  };
-
-  final _activitiesControllers = {
-    Constants.kEconomicActivitiesLabel : TextEditingController(),
-  };
-
-  final _regimesControllers = {
-    Constants.kRegimesLabel : TextEditingController(),
+    Constants.kCityLabel : [TextEditingController()],
+    Constants.kColoniaLabel : [TextEditingController()],
+    Constants.kHouseNumberLabel : [TextEditingController()],
+    Constants.kStateLabel : [TextEditingController()],
+    Constants.kStreetLabel : [TextEditingController()],
+    Constants.kZipCodeLabel : [TextEditingController()],
   };
 
   @override
   void didUpdateWidget(covariant FormViewer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.data != oldWidget.data) {
-      for (var controller in _personalDataControllers.entries) {
-        controller.value.text = widget.data[controller.key] ?? '';
+      for (final controller in _personalDataControllers.entries) {
+        controller.value.single.text = widget.data[controller.key] ?? '';
       }
+      for (final controller in _fiscalDataControllers.entries) {
+        controller.value.single.text = widget.data[controller.key] ?? '';
+      }
+      for (final controllers in _activitiesControllers.entries) {
+        for (final controller in controllers.value) {
+          controller.dispose();
+        }
+      }
+      final activities = 
+        widget.data[Constants.kEconomicActivitiesLabel]?.split(';') ?? [];
+      final activitiesControllers = [
+        ...activities.map((activity) =>
+        TextEditingController(text: activity)),
+        TextEditingController(),
+      ];
+      _activitiesControllers[Constants.kEconomicActivitiesLabel] = 
+        activitiesControllers;
+
+      for (final controllers in _regimesControllers.entries) {
+        for (final controller in controllers.value) {
+          controller.dispose();
+        }
+      }
+      final regimes = 
+        widget.data[Constants.kRegimesLabel]?.split(';') ?? [];
+      final regimesControllers = [
+        ...regimes.map((regime) =>
+        TextEditingController(text: regime)),
+        TextEditingController(),
+      ];
+      _regimesControllers[Constants.kRegimesLabel] = regimesControllers;
     }
   }
 
