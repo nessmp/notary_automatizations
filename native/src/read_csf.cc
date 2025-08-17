@@ -195,7 +195,7 @@ std::wstring ReadCsf::NormalizeData(const std::wstring &data) {
     for (std::size_t  i = 0; i < data_vector.size(); i++) {
         result += data_vector[i];
         if (i != data_vector.size() -1) {
-            result += L" y ";
+            result += L";";
         }
     }
 
