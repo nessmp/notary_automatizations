@@ -34,7 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Map<FileTypes, Map<String, String>>? _filesData;
+  Map<FileTypes, Map<String, String>> _filesData = {};
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -43,12 +43,30 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             flex: 1,
-            child: Padding(
+            child: Padding( 
               padding: const EdgeInsets.symmetric(
                 horizontal: Constants.kTightSpacing),
               child: TopBanner(
                 onDataUpload: (data) {
-                  setState(() => _filesData = data);
+                  final updatedData = {
+                    for (final entry in _filesData.entries)
+                      entry.key: Map<String, String>.from(entry.value)
+                  };
+
+                  data.forEach((fileType, fileData) {
+                    updatedData[fileType] = updatedData[fileType] ?? {};
+
+                    fileData.forEach((field, value) {
+                      final hasKey = updatedData[fileType]!.containsKey(field);
+                      final shouldReplace = !hasKey || (value.isNotEmpty);
+
+                      if (shouldReplace) {
+                        updatedData[fileType]![field] = value;
+                      }
+                    });
+                  });
+                  setState(() => _filesData = updatedData);
+
                 },
               ),
             ),
@@ -57,7 +75,7 @@ class _HomePageState extends State<HomePage> {
             flex: 10,
             child: Padding(
               padding: const EdgeInsets.all(Constants.kSectionsSpacing),
-              child: FormViewer(data: _filesData?[FileTypes.csf] ?? {}),
+              child: FormViewer(data: _filesData),
             ),
           ),
         ],

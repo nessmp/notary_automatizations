@@ -23,7 +23,8 @@ class _DataViewerState extends State<DataViewer> {
         _titleWidget, 
         _nameWidget,
         _birthDateWidget,
-        _columnsWidget,
+        _idWidget,
+        _addressWidget,
         _activitiesWidget,
         _regimesWidget,
     ],
@@ -53,21 +54,9 @@ class _DataViewerState extends State<DataViewer> {
         widget.controllers[Constants.kBirthDateLabel]!) : 
       const SizedBox.shrink();
 
-  Widget get _columnsWidget {
-    const List<String> leftColumnsKeys = [
-      // 'CIC', 
-      Constants.kStateLabel,
-      Constants.kColoniaLabel,
-      Constants.kStreetLabel,
-    ];
-    
-    const List<String> rightColumnKeys = [
-      // 'OCR', 
-      Constants.kCityLabel,
-      Constants.kZipCodeLabel,
-      Constants.kHouseNumberLabel,
-    ];
-
+  Widget _columnWidget(
+    List<String> leftColumnsKeys, 
+    List<String> rightColumnKeys) {
     final columnControllers = Map.fromEntries(
       widget.controllers.entries.where((entry) => 
         leftColumnsKeys.contains(entry.key)|| 
@@ -101,6 +90,34 @@ class _DataViewerState extends State<DataViewer> {
       ],
     );
   }
+
+  Widget get _idWidget {
+    const List<String> leftColumnsKeys = [
+      Constants.kCurpLabel,
+      Constants.kCicLabel, 
+    ];
+    const List<String> rightColumnKeys = [
+      Constants.kRfcLabel,
+      Constants.kOcrLabel,
+    ];
+  
+    return _columnWidget(leftColumnsKeys, rightColumnKeys);
+  }
+
+  Widget get _addressWidget {
+    const List<String> leftColumnsKeys = [
+      Constants.kStateLabel,
+      Constants.kColoniaLabel,
+      Constants.kStreetLabel,
+    ];
+    const List<String> rightColumnKeys = [
+      Constants.kCityLabel,
+      Constants.kZipCodeLabel,
+      Constants.kHouseNumberLabel,
+    ];
+ 
+    return _columnWidget(leftColumnsKeys, rightColumnKeys);
+ }
 
   Widget get _activitiesWidget {
     if (widget.controllers.containsKey(Constants.kEconomicActivitiesLabel)) {

@@ -41,7 +41,7 @@ class _UploadButtonState extends State<UploadButton> {
       }
 
       final validityFile = result.files.where((file) => 
-        file.name.endsWith('vigencia.pdf')).firstOrNull;
+        file.name.endsWith('vigencia.jpg')).firstOrNull;
       if (validityFile != null) {
         filesPaths[FileTypes.validity] = validityFile.path!;
       }
