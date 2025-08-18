@@ -21,7 +21,7 @@ class _TopBanner extends State<TopBanner> {
         Expanded(
           flex: 4,
           child: UploadButton(
-            onUploadComplete: (filesPaths){
+            onUploadComplete: (filesPaths) {
               final Map<FileTypes, Map<String, String>> data = {};
               final readFiles = ReadFiles(filesPaths);
               if (readFiles.csfData.isNotEmpty) {
