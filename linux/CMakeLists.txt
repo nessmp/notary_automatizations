@@ -134,8 +134,24 @@ endif()
 add_library(read_csf_wrapper SHARED ${NATIVE_DIR}/src/read_csf_wrapper.cc 
   ${NATIVE_DIR}/src/read_csf.cc ${NATIVE_DIR}/src/read_pdf.cc)
 
+add_library(read_validity_wrapper SHARED 
+  ${NATIVE_DIR}/src/read_validity_wrapper.cc 
+  ${NATIVE_DIR}/src/read_validity.cc 
+  ${NATIVE_DIR}/src/read_image.cc)
+
 target_include_directories(read_csf_wrapper PUBLIC ${NATIVE_DIR}/include)
+target_include_directories(read_validity_wrapper PUBLIC ${NATIVE_DIR}/include)
 
 find_library(PDFIO_LIB pdfio REQUIRED PATHS /usr/local/lib)
 target_include_directories(read_csf_wrapper PRIVATE /usr/local/include)
 target_link_libraries(read_csf_wrapper PRIVATE ${PDFIO_LIB})
+
+target_include_directories(read_validity_wrapper PRIVATE /usr/local/include)
+target_link_libraries(read_validity_wrapper PRIVATE ${PDFIO_LIB})
+target_link_libraries(read_validity_wrapper PRIVATE
+    tesseract
+    lept
+    pdfio
+    m
+    z
+)
