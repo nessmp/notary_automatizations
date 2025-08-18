@@ -51,11 +51,11 @@ class ReadCsf {
     'build/linux/x64/debug/libread_csf_wrapper.so');
 
   late final Pointer<Void> Function(Pointer<Utf8>) _create = _lib
-      .lookup<NativeFunction<Pointer<Void> Function(Pointer<Utf8>)>>("create")
-      .asFunction();
+    .lookup<NativeFunction<Pointer<Void> Function(Pointer<Utf8>)>>("create")
+    .asFunction();
   late final void Function(Pointer<Void>) _destroy = _lib
-      .lookup<NativeFunction<Void Function(Pointer<Void>)>>("destroy")
-      .asFunction();
+    .lookup<NativeFunction<Void Function(Pointer<Void>)>>("destroy")
+    .asFunction();
       
   late final Pointer<WChar> Function(Pointer<Void>) _getBirthDate = _lib
     .lookup<NativeFunction<Pointer<WChar> Function(Pointer<Void>)>>(
